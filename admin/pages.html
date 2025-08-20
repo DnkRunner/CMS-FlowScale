@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS-FlowScale - Zarządzanie stronami</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+        
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: #f8fafc;
+            border-right: 1px solid #e2e8f0;
+            padding: 1rem;
+        }
+        
+        .sidebar-header {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #4b5563;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: #1f2937;
+        }
+        
+        .btn {
+            background: #1f2937;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: #374151;
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        
+        .content-section {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: #ffffff;
+            color: #1f2937;
+            font-size: 1rem;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #1f2937;
+            box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1);
+        }
+        
+        .filter-select {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: #ffffff;
+            color: #1f2937;
+            font-size: 0.9rem;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f8fafc;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .table tr:hover {
+            background: #f8fafc;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-published {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-draft {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .url-preview {
+            font-family: monospace;
+            background: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #374151;
+        }
+        
+        .bulk-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+        
+        .bulk-select {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: #ffffff;
+        }
+        
+        .pages-count {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-notice {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            color: #92400e;
+        }
+        
+        .demo-notice strong {
+            color: #78350f;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                min-width: auto;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">CMS-FlowScale</div>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/admin" class="nav-link">📊 Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/posts" class="nav-link">📝 Posty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/pages" class="nav-link active">📄 Strony</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/media" class="nav-link">🖼️ Media</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/comments" class="nav-link">💬 Komentarze</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/categories" class="nav-link">🏷️ Kategorie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/users" class="nav-link">👥 Użytkownicy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/settings" class="nav-link">⚙️ Ustawienia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/theme" class="nav-link">🎨 Motyw</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">🏠 Zobacz stronę</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <header class="header">
+                <h1 class="page-title">Zarządzanie stronami</h1>
+                <a href="/admin/pages/new" class="btn">Dodaj nową stronę</a>
+            </header>
+            
+            <div class="demo-notice">
+                <strong>💡 Informacja:</strong> To jest wersja demo CMS. Wpisy i strony nie są faktycznie zapisywane w bazie danych. W prawdziwej wersji z backendem wszystkie funkcje będą w pełni działające.
+            </div>
+            
+            <div class="content-section">
+                <div class="pages-count">Wyświetlanie 3 stron</div>
+                
+                <div class="bulk-actions">
+                    <select class="bulk-select">
+                        <option>Masowe akcje</option>
+                        <option>Opublikuj</option>
+                        <option>Przenieś do szkiców</option>
+                        <option>Usuń</option>
+                    </select>
+                    <button class="btn btn-secondary">Zastosuj</button>
+                </div>
+                
+                <div class="filters">
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="Szukaj stron...">
+                    </div>
+                    <select class="filter-select">
+                        <option>Wszystkie statusy</option>
+                        <option>Opublikowane</option>
+                        <option>Szkice</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Sortuj według</option>
+                        <option>Data utworzenia (najnowsze)</option>
+                        <option>Data utworzenia (najstarsze)</option>
+                        <option>Alfabetycznie (A-Z)</option>
+                        <option>Alfabetycznie (Z-A)</option>
+                    </select>
+                </div>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>Tytuł</th>
+                            <th>Autor</th>
+                            <th>Status</th>
+                            <th>Data utworzenia</th>
+                            <th>URL</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><strong>O nas</strong></td>
+                            <td>Admin</td>
+                            <td><span class="status-badge status-published">Opublikowana</span></td>
+                            <td>15.08.2025 10:30</td>
+                            <td><span class="url-preview">/o-nas</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/pages/edit/1" class="btn btn-small">Edytuj</a>
+                                    <a href="/o-nas" target="_blank" class="btn btn-small btn-secondary">Podgląd</a>
+                                    <button class="btn btn-small btn-danger" onclick="confirmDelete(1)">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><strong>Kontakt</strong></td>
+                            <td>Admin</td>
+                            <td><span class="status-badge status-published">Opublikowana</span></td>
+                            <td>14.08.2025 16:45</td>
+                            <td><span class="url-preview">/kontakt</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/pages/edit/2" class="btn btn-small">Edytuj</a>
+                                    <a href="/kontakt" target="_blank" class="btn btn-small btn-secondary">Podgląd</a>
+                                    <button class="btn btn-small btn-danger" onclick="confirmDelete(2)">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><strong>Polityka prywatności</strong></td>
+                            <td>Admin</td>
+                            <td><span class="status-badge status-draft">Szkic</span></td>
+                            <td>13.08.2025 09:15</td>
+                            <td><span class="url-preview">/polityka-prywatnosci</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/pages/edit/3" class="btn btn-small">Edytuj</a>
+                                    <button class="btn btn-small">Opublikuj</button>
+                                    <button class="btn btn-small btn-danger" onclick="confirmDelete(3)">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function confirmDelete(pageId) {
+            if (confirm('Czy na pewno chcesz usunąć tę stronę? Tej operacji nie można cofnąć.')) {
+                // Tutaj byłaby logika usuwania
+                alert('Strona została usunięta!');
+                location.reload();
+            }
+        }
+        
+        // Wyszukiwanie
+        document.querySelector('.search-input').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const title = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS-FlowScale - Nowa strona</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+        
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: #f8fafc;
+            border-right: 1px solid #e2e8f0;
+            padding: 1rem;
+        }
+        
+        .sidebar-header {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #4b5563;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: #1f2937;
+        }
+        
+        .btn {
+            background: #1f2937;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: #374151;
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+        
+        .content-section {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: #ffffff;
+            color: #1f2937;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #1f2937;
+            box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            gap: 1rem;
+            margin: 0.75rem 0;
+            align-items: center;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .btn-publish {
+            background: #059669;
+        }
+        
+        .btn-publish:hover {
+            background: #047857;
+        }
+        
+        .btn-draft {
+            background: #6b7280;
+        }
+        
+        .btn-draft:hover {
+            background: #4b5563;
+        }
+        
+        /* Editor Styles */
+        .editor-toolbar {
+            background: #f8fafc;
+            border: 1px solid #d1d5db;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            padding: 0.5rem;
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+        
+        .editor-btn {
+            background: #ffffff;
+            border: 1px solid #d1d5db;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .editor-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        .editor-btn.active {
+            background: #1f2937;
+            color: white;
+            border-color: #1f2937;
+        }
+        
+        .editor-content {
+            border: 1px solid #d1d5db;
+            border-radius: 0 0 6px 6px;
+            min-height: 400px;
+            padding: 1rem;
+            background: #ffffff;
+            font-family: inherit;
+            line-height: 1.6;
+        }
+        
+        .editor-content:focus {
+            outline: none;
+            border-color: #1f2937;
+        }
+        
+        .editor-mode-switch {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .mode-btn {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .mode-btn.active {
+            background: #1f2937;
+            color: white;
+            border-color: #1f2937;
+        }
+        
+        .html-editor {
+            display: none;
+        }
+        
+        .html-editor.active {
+            display: block;
+        }
+        
+        .wysiwyg-editor {
+            display: block;
+        }
+        
+        .wysiwyg-editor.hidden {
+            display: none;
+        }
+        
+        .demo-notice {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            color: #92400e;
+        }
+        
+        .demo-notice strong {
+            color: #78350f;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">CMS-FlowScale</div>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/admin" class="nav-link">📊 Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/posts" class="nav-link">📝 Posty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/pages" class="nav-link active">📄 Strony</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/media" class="nav-link">🖼️ Media</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/comments" class="nav-link">💬 Komentarze</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/categories" class="nav-link">🏷️ Kategorie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/users" class="nav-link">👥 Użytkownicy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/settings" class="nav-link">⚙️ Ustawienia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/theme" class="nav-link">🎨 Motyw</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">🏠 Zobacz stronę</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <header class="header">
+                <h1 class="page-title">Dodaj nową stronę</h1>
+                <a href="/admin/pages" class="btn btn-secondary">Powrót do listy</a>
+            </header>
+            
+            <div class="demo-notice">
+                <strong>💡 Informacja:</strong> To jest wersja demo CMS. Strony nie są faktycznie zapisywane w bazie danych. W prawdziwej wersji z backendem wszystkie funkcje będą w pełni działające.
+            </div>
+            
+            <form id="page-form">
+                <div class="content-section">
+                    <div class="form-group">
+                        <label for="title">Tytuł strony *</label>
+                        <input type="text" id="title" name="title" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="slug">Slug (URL)</label>
+                        <input type="text" id="slug" name="slug" class="form-control" placeholder="zostaw puste aby wygenerować">
+                        <small style="color: #6b7280; margin-top: 0.25rem; display: block;">URL będzie: nazwastrony.pl/[slug]</small>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="show_title" name="show_title" value="1" checked>
+                            <label for="show_title">Wyświetl tytuł na stronie</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="show_in_menu" name="show_in_menu" value="1">
+                            <label for="show_in_menu">Pokaż w menu nawigacyjnym</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="meta_title">Meta tytuł</label>
+                        <input type="text" id="meta_title" name="meta_title" class="form-control" placeholder="Tytuł dla SEO">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="meta_description">Meta opis</label>
+                        <textarea id="meta_description" name="meta_description" class="form-control" rows="2" placeholder="Opis dla SEO"></textarea>
+                    </div>
+                </div>
+                
+                <div class="content-section">
+                    <div class="form-group">
+                        <label for="content">Treść strony *</label>
+                        
+                        <div class="editor-mode-switch">
+                            <button type="button" class="mode-btn active" onclick="switchMode('wysiwyg')">Edytor wizualny</button>
+                            <button type="button" class="mode-btn" onclick="switchMode('html')">HTML</button>
+                        </div>
+                        
+                        <div class="wysiwyg-editor">
+                            <div class="editor-toolbar">
+                                <button type="button" class="editor-btn" onclick="execCommand('bold')" title="Pogrubienie">B</button>
+                                <button type="button" class="editor-btn" onclick="execCommand('italic')" title="Kursywa">I</button>
+                                <button type="button" class="editor-btn" onclick="execCommand('underline')" title="Podkreślenie">U</button>
+                                <button type="button" class="editor-btn" onclick="execCommand('strikeThrough')" title="Przekreślenie">S</button>
+                                <div style="width: 1px; background: #d1d5db; margin: 0 0.5rem;"></div>
+                                <button type="button" class="editor-btn" onclick="execCommand('formatBlock', 'h1')" title="Nagłówek 1">H1</button>
+                                <button type="button" class="editor-btn" onclick="execCommand('formatBlock', 'h2')" title="Nagłówek 2">H2</button>
+                                <button type="button" class="editor-btn" onclick="execCommand('formatBlock', 'h3')" title="Nagłówek 3">H3</button>
+                                <div style="width: 1px; background: #d1d5db; margin: 0 0.5rem;"></div>
+                                <button type="button" class="editor-btn" onclick="execCommand('insertUnorderedList')" title="Lista punktowana">•</button>
+                                <button type="button" class="editor-btn" onclick="execCommand('insertOrderedList')" title="Lista numerowana">1.</button>
+                                <div style="width: 1px; background: #d1d5db; margin: 0 0.5rem;"></div>
+                                <button type="button" class="editor-btn" onclick="insertLink()" title="Wstaw link">🔗</button>
+                                <button type="button" class="editor-btn" onclick="insertImage()" title="Wstaw obraz">🖼️</button>
+                                <div style="width: 1px; background: #d1d5db; margin: 0 0.5rem;"></div>
+                                <button type="button" class="editor-btn" onclick="execCommand('justifyLeft')" title="Wyrównaj do lewej">⫷</button>
+                                <button type="button" class="editor-btn" onclick="execCommand('justifyCenter')" title="Wyśrodkuj">⫸</button>
+                                <button type="button" class="editor-btn" onclick="execCommand('justifyRight')" title="Wyrównaj do prawej">⫹</button>
+                            </div>
+                            <div id="wysiwyg-content" class="editor-content" contenteditable="true" placeholder="Treść strony..."></div>
+                        </div>
+                        
+                        <textarea id="html-content" class="form-control html-editor" rows="20" placeholder="Wklej kod HTML..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status" class="form-control">
+                            <option value="draft">Szkic</option>
+                            <option value="published">Opublikuj</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="template">Szablon</label>
+                        <select id="template" name="template" class="form-control">
+                            <option value="default">Domyślny (z nagłówkiem i stopką)</option>
+                            <option value="blank">Pusty (bez nagłówka i stopki)</option>
+                            <option value="fullwidth">Pełna szerokość</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-publish">Opublikuj</button>
+                    <button type="button" class="btn btn-draft" onclick="saveDraft()">Zapisz szkic</button>
+                    <a href="/admin/pages" class="btn btn-secondary">Anuluj</a>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <script>
+        let currentMode = 'wysiwyg';
+        
+        // Auto-generate slug from title
+        document.getElementById('title').addEventListener('input', function() {
+            const title = this.value;
+            const slug = title.toLowerCase()
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim('-');
+            document.getElementById('slug').value = slug;
+        });
+        
+        // Editor functions
+        function execCommand(command, value = null) {
+            document.execCommand(command, false, value);
+            document.getElementById('wysiwyg-content').focus();
+        }
+        
+        function switchMode(mode) {
+            currentMode = mode;
+            const wysiwygEditor = document.querySelector('.wysiwyg-editor');
+            const htmlEditor = document.getElementById('html-content');
+            const modeBtns = document.querySelectorAll('.mode-btn');
+            
+            if (mode === 'html') {
+                wysiwygEditor.classList.add('hidden');
+                htmlEditor.classList.add('active');
+                htmlEditor.value = wysiwygEditor.querySelector('.editor-content').innerHTML;
+                modeBtns[1].classList.add('active');
+                modeBtns[0].classList.remove('active');
+            } else {
+                wysiwygEditor.classList.remove('hidden');
+                htmlEditor.classList.remove('active');
+                wysiwygEditor.querySelector('.editor-content').innerHTML = htmlEditor.value;
+                modeBtns[0].classList.add('active');
+                modeBtns[1].classList.remove('active');
+            }
+        }
+        
+        function insertLink() {
+            const url = prompt('Podaj URL linku:');
+            if (url) {
+                execCommand('createLink', url);
+            }
+        }
+        
+        function insertImage() {
+            const url = prompt('Podaj URL obrazka:');
+            if (url) {
+                execCommand('insertImage', url);
+            }
+        }
+        
+        // Form submission
+        document.getElementById('page-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get content from current mode
+            let content = '';
+            if (currentMode === 'html') {
+                content = document.getElementById('html-content').value;
+            } else {
+                content = document.getElementById('wysiwyg-content').innerHTML;
+            }
+            
+            // Here you would send the data to server
+            console.log('Content:', content);
+            alert('Strona została opublikowana!');
+            window.location.href = '/admin/pages';
+        });
+        
+        function saveDraft() {
+            alert('Szkic został zapisany!');
+            window.location.href = '/admin/pages';
+        }
+    </script>
+</body>
+</html>
