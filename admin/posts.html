@@ -1,1 +1,530 @@
-<!DOCTYPE html><html><head><title>CMS-FlowScale - Posty</title></head><body><h1>Zarządzanie postami</h1><p>Funkcjonalność w trakcie rozbudowy...</p></body></html>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS-FlowScale - Zarządzanie postami</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+        
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: #f8fafc;
+            border-right: 1px solid #e2e8f0;
+            padding: 1rem;
+        }
+        
+        .sidebar-header {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #4b5563;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: #1f2937;
+        }
+        
+        .btn {
+            background: #1f2937;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+        
+        .btn:hover {
+            background: #374151;
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        
+        .content-section {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: #ffffff;
+            color: #1f2937;
+            font-size: 1rem;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #1f2937;
+            box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1);
+        }
+        
+        .filter-select {
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: #ffffff;
+            color: #1f2937;
+            font-size: 0.9rem;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .table th {
+            background: #f8fafc;
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        .table tr:hover {
+            background: #f8fafc;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-published {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .status-draft {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .status-scheduled {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .url-preview {
+            font-family: monospace;
+            background: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #374151;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        .page-btn {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            background: #ffffff;
+            color: #374151;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .page-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        .page-btn.active {
+            background: #1f2937;
+            color: white;
+            border-color: #1f2937;
+        }
+        
+        .bulk-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+        
+        .bulk-select {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: #ffffff;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                min-width: auto;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">CMS-FlowScale</div>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/admin" class="nav-link">📊 Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/posts" class="nav-link active">📝 Posty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/pages" class="nav-link">📄 Strony</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/media" class="nav-link">🖼️ Media</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/comments" class="nav-link">💬 Komentarze</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/categories" class="nav-link">🏷️ Kategorie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/users" class="nav-link">👥 Użytkownicy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/settings" class="nav-link">⚙️ Ustawienia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/theme" class="nav-link">🎨 Motyw</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">🏠 Zobacz stronę</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <header class="header">
+                <h1 class="page-title">Zarządzanie postami</h1>
+                <a href="/admin/posts/new" class="btn">Dodaj nowy post</a>
+            </header>
+            
+            <div class="content-section">
+                <div class="bulk-actions">
+                    <select class="bulk-select">
+                        <option>Masowe akcje</option>
+                        <option>Opublikuj</option>
+                        <option>Przenieś do szkiców</option>
+                        <option>Usuń</option>
+                    </select>
+                    <button class="btn btn-secondary">Zastosuj</button>
+                </div>
+                
+                <div class="filters">
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="Szukaj postów...">
+                    </div>
+                    <select class="filter-select">
+                        <option>Wszystkie statusy</option>
+                        <option>Opublikowane</option>
+                        <option>Szkice</option>
+                        <option>Zaplanowane</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Wszystkie kategorie</option>
+                        <option>Technologie</option>
+                        <option>Design</option>
+                        <option>Bezpieczeństwo</option>
+                        <option>Wydajność</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Sortuj według</option>
+                        <option>Data publikacji (najnowsze)</option>
+                        <option>Data publikacji (najstarsze)</option>
+                        <option>Alfabetycznie (A-Z)</option>
+                        <option>Alfabetycznie (Z-A)</option>
+                    </select>
+                </div>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>Tytuł</th>
+                            <th>Autor</th>
+                            <th>Kategorie</th>
+                            <th>Status</th>
+                            <th>Data publikacji</th>
+                            <th>URL</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><strong>Witaj w CMS-FlowScale!</strong></td>
+                            <td>Admin</td>
+                            <td><span style="background: #3b82f6; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Technologie</span></td>
+                            <td><span class="status-badge status-published">Opublikowany</span></td>
+                            <td>20.08.2025 14:30</td>
+                            <td><span class="url-preview">/witaj-w-cms-flowscale</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/posts/edit/1" class="btn btn-small">Edytuj</a>
+                                    <a href="/witaj-w-cms-flowscale" target="_blank" class="btn btn-small btn-secondary">Podgląd</a>
+                                    <button class="btn btn-small btn-danger" onclick="confirmDelete(1)">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><strong>Nowoczesne technologie webowe</strong></td>
+                            <td>Admin</td>
+                            <td><span style="background: #10b981; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Design</span></td>
+                            <td><span class="status-badge status-published">Opublikowany</span></td>
+                            <td>19.08.2025 16:45</td>
+                            <td><span class="url-preview">/nowoczesne-technologie-webowe</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/posts/edit/2" class="btn btn-small">Edytuj</a>
+                                    <a href="/nowoczesne-technologie-webowe" target="_blank" class="btn btn-small btn-secondary">Podgląd</a>
+                                    <button class="btn btn-small btn-danger" onclick="confirmDelete(2)">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><strong>Design System w praktyce</strong></td>
+                            <td>Admin</td>
+                            <td><span style="background: #f59e0b; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Bezpieczeństwo</span></td>
+                            <td><span class="status-badge status-published">Opublikowany</span></td>
+                            <td>18.08.2025 10:15</td>
+                            <td><span class="url-preview">/design-system-w-praktyce</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/posts/edit/3" class="btn btn-small">Edytuj</a>
+                                    <a href="/design-system-w-praktyce" target="_blank" class="btn btn-small btn-secondary">Podgląd</a>
+                                    <button class="btn btn-small btn-danger" onclick="confirmDelete(3)">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><strong>Optymalizacja wydajności stron</strong></td>
+                            <td>Admin</td>
+                            <td><span style="background: #ef4444; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Wydajność</span></td>
+                            <td><span class="status-badge status-draft">Szkic</span></td>
+                            <td>—</td>
+                            <td><span class="url-preview">/optymalizacja-wydajnosci-stron</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/posts/edit/4" class="btn btn-small">Edytuj</a>
+                                    <button class="btn btn-small">Opublikuj</button>
+                                    <button class="btn btn-small btn-danger" onclick="confirmDelete(4)">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><strong>Bezpieczeństwo aplikacji webowych</strong></td>
+                            <td>Admin</td>
+                            <td><span style="background: #f59e0b; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Bezpieczeństwo</span></td>
+                            <td><span class="status-badge status-scheduled">Zaplanowany</span></td>
+                            <td>25.08.2025 09:00</td>
+                            <td><span class="url-preview">/bezpieczenstwo-aplikacji-webowych</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/posts/edit/5" class="btn btn-small">Edytuj</a>
+                                    <a href="/bezpieczenstwo-aplikacji-webowych" target="_blank" class="btn btn-small btn-secondary">Podgląd</a>
+                                    <button class="btn btn-small btn-danger" onclick="confirmDelete(5)">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><strong>Responsive Design - najlepsze praktyki</strong></td>
+                            <td>Admin</td>
+                            <td><span style="background: #10b981; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Design</span></td>
+                            <td><span class="status-badge status-published">Opublikowany</span></td>
+                            <td>17.08.2025 13:20</td>
+                            <td><span class="url-preview">/responsive-design-najlepsze-praktyki</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/posts/edit/6" class="btn btn-small">Edytuj</a>
+                                    <a href="/responsive-design-najlepsze-praktyki" target="_blank" class="btn btn-small btn-secondary">Podgląd</a>
+                                    <button class="btn btn-small btn-danger" onclick="confirmDelete(6)">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="pagination">
+                    <a href="#" class="page-btn active">1</a>
+                    <a href="#" class="page-btn">2</a>
+                    <a href="#" class="page-btn">3</a>
+                    <a href="#" class="page-btn">Następna →</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function confirmDelete(postId) {
+            if (confirm('Czy na pewno chcesz usunąć ten post? Tej operacji nie można cofnąć.')) {
+                // Tutaj byłaby logika usuwania
+                alert('Post został usunięty!');
+                location.reload();
+            }
+        }
+        
+        // Wyszukiwanie
+        document.querySelector('.search-input').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const title = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+                if (title.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
