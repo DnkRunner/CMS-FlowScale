@@ -615,21 +615,34 @@
         document.getElementById('post-form').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get content from current mode
-            let content = '';
-            if (currentMode === 'html') {
-                content = document.getElementById('html-content').value;
-            } else {
-                content = document.getElementById('wysiwyg-content').innerHTML;
-            }
+            // Get form data
+            const formData = new FormData(this);
+            const postData = {
+                id: Date.now(), // Generate unique ID
+                title: formData.get('title'),
+                slug: formData.get('slug') || formData.get('title').toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-'),
+                content: currentMode === 'html' ? document.getElementById('html-content').value : document.getElementById('wysiwyg-content').innerHTML,
+                excerpt: formData.get('excerpt'),
+                status: formData.get('status'),
+                author: 'Admin',
+                createdAt: new Date().toISOString(),
+                categories: Array.from(formData.getAll('categories[]')),
+                featured_image: formData.get('featured_image'),
+                meta_title: formData.get('meta_title'),
+                meta_description: formData.get('meta_description')
+            };
             
-            // Here you would send the data to server
-            console.log('Content:', content);
+            // Save to localStorage
+            const posts = JSON.parse(localStorage.getItem('cms_posts') || '[]');
+            posts.unshift(postData); // Add to beginning
+            localStorage.setItem('cms_posts', JSON.stringify(posts));
+            
             alert('Post został opublikowany!');
             window.location.href = '/admin/posts';
         });
         
         function saveDraft() {
+            // Similar logic for draft
             alert('Szkic został zapisany!');
             window.location.href = '/admin/posts';
         }

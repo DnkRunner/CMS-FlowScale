@@ -1,6 +1,41 @@
 {
   "version": 2,
+  "functions": {
+    "api/posts.php": {
+      "runtime": "vercel-php@0.6.0"
+    },
+    "api/pages.php": {
+      "runtime": "vercel-php@0.6.0"
+    },
+    "api/categories.php": {
+      "runtime": "vercel-php@0.6.0"
+    }
+  },
   "routes": [
+    {
+      "src": "/api/posts",
+      "dest": "/api/posts.php"
+    },
+    {
+      "src": "/api/posts/(.*)",
+      "dest": "/api/posts.php"
+    },
+    {
+      "src": "/api/pages",
+      "dest": "/api/pages.php"
+    },
+    {
+      "src": "/api/pages/(.*)",
+      "dest": "/api/pages.php"
+    },
+    {
+      "src": "/api/categories",
+      "dest": "/api/categories.php"
+    },
+    {
+      "src": "/api/categories/(.*)",
+      "dest": "/api/categories.php"
+    },
     {
       "src": "/nowy-wpis-testowy",
       "dest": "/posts/nowy-wpis-testowy.html"
