@@ -1,47 +1,25 @@
 {
   "version": 2,
-  "functions": {
-    "api/posts.php": {
-      "runtime": "vercel-php@0.6.0"
-    },
-    "api/pages.php": {
-      "runtime": "vercel-php@0.6.0"
-    },
-    "api/categories.php": {
-      "runtime": "vercel-php@0.6.0"
-    },
-    "api/test.php": {
-      "runtime": "vercel-php@0.6.0"
-    }
-  },
   "routes": [
     {
       "src": "/api/test",
-      "dest": "/api/test.php"
+      "dest": "/api/test.js"
     },
     {
       "src": "/api/posts",
-      "dest": "/api/posts.php"
+      "dest": "/api/posts.js"
     },
     {
       "src": "/api/posts/(.*)",
-      "dest": "/api/posts.php"
-    },
-    {
-      "src": "/api/pages",
-      "dest": "/api/pages.php"
-    },
-    {
-      "src": "/api/pages/(.*)",
-      "dest": "/api/pages.php"
+      "dest": "/api/posts.js"
     },
     {
       "src": "/api/categories",
-      "dest": "/api/categories.php"
+      "dest": "/api/categories.js"
     },
     {
       "src": "/api/categories/(.*)",
-      "dest": "/api/categories.php"
+      "dest": "/api/categories.js"
     },
     {
       "src": "/admin/posts/new",
