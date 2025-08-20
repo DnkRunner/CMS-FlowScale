@@ -267,6 +267,12 @@
             background: #ffffff;
         }
         
+        .posts-count {
+            color: #6b7280;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
         @media (max-width: 768px) {
             .admin-layout {
                 flex-direction: column;
@@ -343,6 +349,8 @@
             </header>
             
             <div class="content-section">
+                <div class="posts-count">Wyświetlanie 7 postów</div>
+                
                 <div class="bulk-actions">
                     <select class="bulk-select">
                         <option>Masowe akcje</option>
@@ -393,6 +401,22 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td><strong>Nowy wpis testowy</strong></td>
+                            <td>Admin</td>
+                            <td><span style="background: #3b82f6; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">Technologie</span></td>
+                            <td><span class="status-badge status-published">Opublikowany</span></td>
+                            <td>21.08.2025 15:30</td>
+                            <td><span class="url-preview">/nowy-wpis-testowy</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/posts/edit/7" class="btn btn-small">Edytuj</a>
+                                    <a href="/nowy-wpis-testowy" target="_blank" class="btn btn-small btn-secondary">Podgląd</a>
+                                    <button class="btn btn-small btn-danger" onclick="confirmDelete(7)">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
                         <tr>
                             <td><input type="checkbox"></td>
                             <td><strong>Witaj w CMS-FlowScale!</strong></td>
@@ -492,12 +516,7 @@
                     </tbody>
                 </table>
                 
-                <div class="pagination">
-                    <a href="#" class="page-btn active">1</a>
-                    <a href="#" class="page-btn">2</a>
-                    <a href="#" class="page-btn">3</a>
-                    <a href="#" class="page-btn">Następna →</a>
-                </div>
+                <!-- Paginacja ukryta - pokazuje się tylko gdy jest więcej niż 10 postów -->
             </div>
         </main>
     </div>

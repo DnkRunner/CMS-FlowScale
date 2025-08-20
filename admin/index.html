@@ -269,6 +269,15 @@
             margin-bottom: 1rem;
         }
         
+        .url-preview {
+            font-family: monospace;
+            background: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: #374151;
+        }
+        
         @media (max-width: 768px) {
             .admin-layout {
                 flex-direction: column;
@@ -344,7 +353,7 @@
             
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">6</div>
+                    <div class="stat-number">7</div>
                     <div class="stat-label">Wszystkie posty</div>
                 </div>
                 <div class="stat-card">
@@ -410,11 +419,25 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td>Nowy wpis testowy</td>
+                            <td>Admin</td>
+                            <td><span class="status-badge status-published">Opublikowany</span></td>
+                            <td>21.08.2025 15:30</td>
+                            <td><span class="url-preview">/nowy-wpis-testowy</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/posts/edit/7" class="btn btn-small">Edytuj</a>
+                                    <a href="/nowy-wpis-testowy" target="_blank" class="btn btn-small btn-secondary">Podgląd</a>
+                                    <button class="btn btn-small btn-danger">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
                             <td>Witaj w CMS-FlowScale!</td>
                             <td>Admin</td>
                             <td><span class="status-badge status-published">Opublikowany</span></td>
                             <td>20.08.2025 14:30</td>
-                            <td><code>/witaj-w-cms-flowscale</code></td>
+                            <td><span class="url-preview">/witaj-w-cms-flowscale</span></td>
                             <td>
                                 <div class="action-buttons">
                                     <a href="/admin/posts/edit/1" class="btn btn-small">Edytuj</a>
@@ -428,25 +451,11 @@
                             <td>Admin</td>
                             <td><span class="status-badge status-published">Opublikowany</span></td>
                             <td>19.08.2025 16:45</td>
-                            <td><code>/nowoczesne-technologie-webowe</code></td>
+                            <td><span class="url-preview">/nowoczesne-technologie-webowe</span></td>
                             <td>
                                 <div class="action-buttons">
                                     <a href="/admin/posts/edit/2" class="btn btn-small">Edytuj</a>
                                     <a href="/nowoczesne-technologie-webowe" target="_blank" class="btn btn-small btn-secondary">Podgląd</a>
-                                    <button class="btn btn-small btn-danger">Usuń</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Design System w praktyce</td>
-                            <td>Admin</td>
-                            <td><span class="status-badge status-published">Opublikowany</span></td>
-                            <td>18.08.2025 10:15</td>
-                            <td><code>/design-system-w-praktyce</code></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <a href="/admin/posts/edit/3" class="btn btn-small">Edytuj</a>
-                                    <a href="/design-system-w-praktyce" target="_blank" class="btn btn-small btn-secondary">Podgląd</a>
                                     <button class="btn btn-small btn-danger">Usuń</button>
                                 </div>
                             </td>
