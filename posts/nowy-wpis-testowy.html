@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nowy wpis testowy - CMS-FlowScale</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .nav a:hover {
+            color: #9ca3af;
+        }
+        
+        .post-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .post-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .post-meta {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+        
+        .post-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+        
+        .post-content h2 {
+            color: #1f2937;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.8rem;
+        }
+        
+        .post-content h3 {
+            color: #1f2937;
+            margin: 1.5rem 0 0.75rem 0;
+            font-size: 1.4rem;
+        }
+        
+        .post-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .post-content ul, .post-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        
+        .post-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .post-content blockquote {
+            border-left: 4px solid #1f2937;
+            padding-left: 1rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: #4b5563;
+        }
+        
+        .post-content code {
+            background: #f3f4f6;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        .post-content pre {
+            background: #f3f4f6;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #1f2937;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav {
+                gap: 1rem;
+            }
+            
+            .post-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">CMS-FlowScale</div>
+                <nav class="nav">
+                    <a href="/">Strona główna</a>
+                    <a href="/o-nas">O nas</a>
+                    <a href="/kontakt">Kontakt</a>
+                    <a href="/admin">Panel admin</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <a href="/" class="back-link">← Powrót do strony głównej</a>
+        
+        <article>
+            <header class="post-header">
+                <h1 class="post-title">Nowy wpis testowy</h1>
+                <div class="post-meta">
+                    Opublikowano: 21 sierpnia 2025 | Autor: Admin | Kategoria: Technologie
+                </div>
+            </header>
+            
+            <div class="post-content">
+                <p>To jest przykładowy wpis testowy, który pokazuje jak wygląda nowy post w systemie CMS-FlowScale. W tym wpisie przedstawimy główne funkcje i możliwości naszego systemu zarządzania treścią.</p>
+                
+                <h2>Główne funkcje CMS-FlowScale</h2>
+                
+                <p>CMS-FlowScale to nowoczesny system zarządzania treścią, który oferuje:</p>
+                
+                <ul>
+                    <li><strong>Intuicyjny panel administracyjny</strong> - łatwe zarządzanie treścią</li>
+                    <li><strong>Edytor WYSIWYG</strong> - tworzenie treści bez znajomości kodu</li>
+                    <li><strong>Zarządzanie mediami</strong> - proste dodawanie obrazów i plików</li>
+                    <li><strong>System kategorii</strong> - organizacja treści</li>
+                    <li><strong>Responsywny design</strong> - wyświetlanie na wszystkich urządzeniach</li>
+                </ul>
+                
+                <h2>Edytor WYSIWYG</h2>
+                
+                <p>Nasz edytor wizualny pozwala na:</p>
+                
+                <ul>
+                    <li>Formatowanie tekstu (pogrubienie, kursywa, podkreślenie)</li>
+                    <li>Dodawanie nagłówków różnych poziomów</li>
+                    <li>Tworzenie list punktowanych i numerowanych</li>
+                    <li>Wstawianie linków i obrazów</li>
+                    <li>Wyrównywanie tekstu</li>
+                </ul>
+                
+                <h3>Przykład kodu</h3>
+                
+                <p>Dla zaawansowanych użytkowników oferujemy również możliwość edycji HTML:</p>
+                
+                <pre><code>&lt;div class="example"&gt;
+    &lt;h2&gt;Przykładowy nagłówek&lt;/h2&gt;
+    &lt;p&gt;To jest przykładowy paragraf z &lt;strong&gt;pogrubionym tekstem&lt;/strong&gt;.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+                
+                <h2>Zarządzanie stronami</h2>
+                
+                <p>Oprócz wpisów blogowych, CMS-FlowScale pozwala na tworzenie stron statycznych takich jak:</p>
+                
+                <ul>
+                    <li>Strona "O nas"</li>
+                    <li>Strona kontaktowa</li>
+                    <li>Polityka prywatności</li>
+                    <li>Regulamin</li>
+                </ul>
+                
+                <blockquote>
+                    "CMS-FlowScale to doskonałe rozwiązanie dla osób, które chcą mieć pełną kontrolę nad swoją treścią internetową, bez konieczności znajomości zaawansowanych technologii."
+                </blockquote>
+                
+                <h2>Podsumowanie</h2>
+                
+                <p>CMS-FlowScale to kompletne rozwiązanie do zarządzania treścią internetową. Łączy w sobie prostotę użytkowania z zaawansowanymi funkcjami, co czyni go idealnym wyborem zarówno dla początkujących, jak i zaawansowanych użytkowników.</p>
+                
+                <p>Zachęcamy do wypróbowania wszystkich funkcji w panelu administracyjnym!</p>
+            </div>
+        </article>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 CMS-FlowScale. Wszystkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+</body>
+</html>

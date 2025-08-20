@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Witaj w CMS-FlowScale! - CMS-FlowScale</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #1f2937;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .header {
+            background: #1f2937;
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .nav a:hover {
+            color: #9ca3af;
+        }
+        
+        .post-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .post-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .post-meta {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+        
+        .post-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+        
+        .post-content h2 {
+            color: #1f2937;
+            margin: 2rem 0 1rem 0;
+            font-size: 1.8rem;
+        }
+        
+        .post-content h3 {
+            color: #1f2937;
+            margin: 1.5rem 0 0.75rem 0;
+            font-size: 1.4rem;
+        }
+        
+        .post-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .post-content ul, .post-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        
+        .post-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .post-content blockquote {
+            border-left: 4px solid #1f2937;
+            padding-left: 1rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: #4b5563;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #1f2937;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        
+        .footer {
+            background: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav {
+                gap: 1rem;
+            }
+            
+            .post-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">CMS-FlowScale</div>
+                <nav class="nav">
+                    <a href="/">Strona główna</a>
+                    <a href="/o-nas">O nas</a>
+                    <a href="/kontakt">Kontakt</a>
+                    <a href="/admin">Panel admin</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container">
+        <a href="/" class="back-link">← Powrót do strony głównej</a>
+        
+        <article>
+            <header class="post-header">
+                <h1 class="post-title">Witaj w CMS-FlowScale!</h1>
+                <div class="post-meta">
+                    Opublikowano: 20 sierpnia 2025 | Autor: Admin | Kategoria: Technologie
+                </div>
+            </header>
+            
+            <div class="post-content">
+                <p>Poznaj nowoczesny system zarządzania treścią, który łączy prostotę użytkowania z zaawansowanymi funkcjami. CMS-FlowScale to odpowiedź na potrzeby współczesnych twórców treści internetowych.</p>
+                
+                <h2>Dlaczego CMS-FlowScale?</h2>
+                
+                <p>W dzisiejszym świecie, gdzie treść jest królem, potrzebujesz narzędzia, które pozwoli Ci skupić się na tym, co najważniejsze - na tworzeniu wartościowych treści. CMS-FlowScale został zaprojektowany z myślą o:</p>
+                
+                <ul>
+                    <li><strong>Prostocie użytkowania</strong> - intuicyjny interfejs</li>
+                    <li><strong>Szybkości działania</strong> - optymalizacja wydajności</li>
+                    <li><strong>Elastyczności</strong> - dostosowanie do Twoich potrzeb</li>
+                    <li><strong>Bezpieczeństwie</strong> - ochrona Twoich danych</li>
+                </ul>
+                
+                <h2>Główne funkcje</h2>
+                
+                <p>CMS-FlowScale oferuje kompletny zestaw narzędzi do zarządzania treścią:</p>
+                
+                <h3>Zarządzanie wpisami</h3>
+                <p>Twórz, edytuj i publikuj wpisy blogowe z zaawansowanym edytorem WYSIWYG. Planuj publikacje i zarządzaj statusami treści.</p>
+                
+                <h3>Zarządzanie stronami</h3>
+                <p>Twórz strony statyczne takie jak "O nas", "Kontakt" czy "Polityka prywatności" z pełną kontrolą nad wyglądem.</p>
+                
+                <h3>Zarządzanie mediami</h3>
+                <p>Prześlij i zorganizuj obrazy, dokumenty i inne pliki w intuicyjnej bibliotece mediów.</p>
+                
+                <h3>System kategorii</h3>
+                <p>Organizuj treści w kategorie i tagi dla lepszej nawigacji i SEO.</p>
+                
+                <blockquote>
+                    "CMS-FlowScale to więcej niż tylko system zarządzania treścią - to narzędzie, które pomoże Ci rozwinąć swoją obecność w internecie."
+                </blockquote>
+                
+                <h2>Rozpocznij pracę</h2>
+                
+                <p>Gotowy, aby rozpocząć przygodę z CMS-FlowScale? Przejdź do panelu administracyjnego i odkryj wszystkie możliwości naszego systemu.</p>
+                
+                <p>Pamiętaj, że to jest wersja demo - w prawdziwej implementacji wszystkie funkcje będą w pełni działające z bazą danych i backendem.</p>
+            </div>
+        </article>
+    </main>
+    
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 CMS-FlowScale. Wszystkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+</body>
+</html>
