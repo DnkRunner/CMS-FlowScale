@@ -1,1 +1,57 @@
-{"version": 2, "routes": [{"src": "/admin/(.*)", "dest": "/admin/index.html"}, {"src": "/admin", "dest": "/admin/index.html"}, {"src": "/(.*)", "dest": "/index.html"}]}
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/admin/posts/new",
+      "dest": "/admin/posts-new.html"
+    },
+    {
+      "src": "/admin/posts",
+      "dest": "/admin/posts.html"
+    },
+    {
+      "src": "/admin/pages/new",
+      "dest": "/admin/pages-new.html"
+    },
+    {
+      "src": "/admin/pages",
+      "dest": "/admin/pages.html"
+    },
+    {
+      "src": "/admin/media",
+      "dest": "/admin/media.html"
+    },
+    {
+      "src": "/admin/comments",
+      "dest": "/admin/comments.html"
+    },
+    {
+      "src": "/admin/categories",
+      "dest": "/admin/categories.html"
+    },
+    {
+      "src": "/admin/users",
+      "dest": "/admin/users.html"
+    },
+    {
+      "src": "/admin/settings",
+      "dest": "/admin/settings.html"
+    },
+    {
+      "src": "/admin/theme",
+      "dest": "/admin/theme.html"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "/admin/index.html"
+    },
+    {
+      "src": "/admin",
+      "dest": "/admin/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
