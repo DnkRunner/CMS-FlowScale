@@ -9,9 +9,16 @@
     },
     "api/categories.php": {
       "runtime": "vercel-php@0.6.0"
+    },
+    "api/test.php": {
+      "runtime": "vercel-php@0.6.0"
     }
   },
   "routes": [
+    {
+      "src": "/api/test",
+      "dest": "/api/test.php"
+    },
     {
       "src": "/api/posts",
       "dest": "/api/posts.php"
@@ -35,42 +42,6 @@
     {
       "src": "/api/categories/(.*)",
       "dest": "/api/categories.php"
-    },
-    {
-      "src": "/nowy-wpis-testowy",
-      "dest": "/posts/nowy-wpis-testowy.html"
-    },
-    {
-      "src": "/witaj-w-cms-flowscale",
-      "dest": "/posts/witaj-w-cms-flowscale.html"
-    },
-    {
-      "src": "/nowoczesne-technologie-webowe",
-      "dest": "/posts/nowoczesne-technologie-webowe.html"
-    },
-    {
-      "src": "/design-system-w-praktyce",
-      "dest": "/posts/design-system-w-praktyce.html"
-    },
-    {
-      "src": "/bezpieczenstwo-aplikacji-webowych",
-      "dest": "/posts/bezpieczenstwo-aplikacji-webowych.html"
-    },
-    {
-      "src": "/responsive-design-najlepsze-praktyki",
-      "dest": "/posts/responsive-design-najlepsze-praktyki.html"
-    },
-    {
-      "src": "/o-nas",
-      "dest": "/pages/o-nas.html"
-    },
-    {
-      "src": "/kontakt",
-      "dest": "/pages/kontakt.html"
-    },
-    {
-      "src": "/polityka-prywatnosci",
-      "dest": "/pages/polityka-prywatnosci.html"
     },
     {
       "src": "/admin/posts/new",
