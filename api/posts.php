@@ -4,13 +4,47 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
+// Check if database is configured
+if (!isset($_ENV['DB_HOST'])) {
+    echo json_encode([
+        'success' => false, 
+        'message' => 'Database not configured. Please set DB_HOST, DB_NAME, DB_USER, DB_PASSWORD environment variables.',
+        'demo_mode' => true,
+        'data' => [
+            [
+                'id' => 1,
+                'title' => 'Demo Post 1',
+                'slug' => 'demo-post-1',
+                'content' => 'This is a demo post. Configure database to enable full functionality.',
+                'status' => 'published',
+                'author' => 'Admin',
+                'created_at' => date('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 2,
+                'title' => 'Demo Post 2',
+                'slug' => 'demo-post-2',
+                'content' => 'Another demo post. Add database configuration to save real posts.',
+                'status' => 'published',
+                'author' => 'Admin',
+                'created_at' => date('Y-m-d H:i:s')
+            ]
+        ]
+    ]);
+    exit;
+}
+
 require_once 'config.php';
 
 // Get database connection
 $pdo = getDbConnection();
 if (!$pdo) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
+    echo json_encode([
+        'success' => false, 
+        'message' => 'Database connection failed. Check your database configuration.',
+        'demo_mode' => true,
+        'data' => []
+    ]);
     exit;
 }
 
@@ -31,8 +65,12 @@ if ($method === 'GET') {
             
             echo json_encode(['success' => true, 'data' => $posts]);
         } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+            echo json_encode([
+                'success' => false, 
+                'message' => 'Database error: ' . $e->getMessage(),
+                'demo_mode' => true,
+                'data' => []
+            ]);
         }
     }
 } elseif ($method === 'POST') {
@@ -62,8 +100,10 @@ if ($method === 'GET') {
             
             echo json_encode(['success' => true, 'message' => 'Post created successfully', 'id' => $pdo->lastInsertId()]);
         } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+            echo json_encode([
+                'success' => false, 
+                'message' => 'Database error: ' . $e->getMessage()
+            ]);
         }
     }
 } elseif ($method === 'PUT') {
@@ -104,8 +144,10 @@ if ($method === 'GET') {
             
             echo json_encode(['success' => true, 'message' => 'Post updated successfully']);
         } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+            echo json_encode([
+                'success' => false, 
+                'message' => 'Database error: ' . $e->getMessage()
+            ]);
         }
     }
 } elseif ($method === 'DELETE') {
@@ -120,8 +162,10 @@ if ($method === 'GET') {
             
             echo json_encode(['success' => true, 'message' => 'Post deleted successfully']);
         } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+            echo json_encode([
+                'success' => false, 
+                'message' => 'Database error: ' . $e->getMessage()
+            ]);
         }
     }
 }
