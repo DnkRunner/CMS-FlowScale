@@ -4,24 +4,18 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
 header('Access-Control-Allow-Headers: Content-Type');
 
-// Simple in-memory storage for demo
-$postsFile = 'posts.json';
+require_once 'config.php';
 
-// Initialize posts file if it doesn't exist
-if (!file_exists($postsFile)) {
-    file_put_contents($postsFile, json_encode([]));
+// Get database connection
+$pdo = getDbConnection();
+if (!$pdo) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
+    exit;
 }
 
-function getPosts() {
-    global $postsFile;
-    $content = file_get_contents($postsFile);
-    return json_decode($content, true) ?: [];
-}
-
-function savePosts($posts) {
-    global $postsFile;
-    file_put_contents($postsFile, json_encode($posts, JSON_PRETTY_PRINT));
-}
+// Initialize database
+initDatabase($pdo);
 
 $method = $_SERVER['REQUEST_METHOD'];
 $path = $_SERVER['REQUEST_URI'];
@@ -30,76 +24,108 @@ $path = $_SERVER['REQUEST_URI'];
 if ($method === 'GET') {
     if (strpos($path, '/api/posts') !== false) {
         // Get all posts
-        $posts = getPosts();
-        echo json_encode(['success' => true, 'data' => $posts]);
+        try {
+            $stmt = $pdo->prepare('SELECT * FROM posts ORDER BY created_at DESC');
+            $stmt->execute();
+            $posts = $stmt->fetchAll();
+            
+            echo json_encode(['success' => true, 'data' => $posts]);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+        }
     }
 } elseif ($method === 'POST') {
     if (strpos($path, '/api/posts') !== false) {
         // Create new post
-        $input = json_decode(file_get_contents('php://input'), true);
-        
-        $posts = getPosts();
-        $newPost = [
-            'id' => time() . rand(100, 999),
-            'title' => $input['title'],
-            'slug' => $input['slug'],
-            'content' => $input['content'],
-            'excerpt' => $input['excerpt'],
-            'status' => $input['status'],
-            'author' => $input['author'],
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-            'featured_image' => $input['featured_image'],
-            'meta_title' => $input['meta_title'],
-            'meta_description' => $input['meta_description'],
-            'categories' => $input['categories'],
-            'template' => $input['template']
-        ];
-        
-        array_unshift($posts, $newPost);
-        savePosts($posts);
-        
-        echo json_encode(['success' => true, 'message' => 'Post created successfully', 'id' => $newPost['id']]);
+        try {
+            $input = json_decode(file_get_contents('php://input'), true);
+            
+            $stmt = $pdo->prepare('
+                INSERT INTO posts (title, slug, content, excerpt, status, author, featured_image, meta_title, meta_description, categories, template)
+                VALUES (:title, :slug, :content, :excerpt, :status, :author, :featured_image, :meta_title, :meta_description, :categories, :template)
+                RETURNING id
+            ');
+            
+            $stmt->bindParam(':title', $input['title']);
+            $stmt->bindParam(':slug', $input['slug']);
+            $stmt->bindParam(':content', $input['content']);
+            $stmt->bindParam(':excerpt', $input['excerpt']);
+            $stmt->bindParam(':status', $input['status']);
+            $stmt->bindParam(':author', $input['author']);
+            $stmt->bindParam(':featured_image', $input['featured_image']);
+            $stmt->bindParam(':meta_title', $input['meta_title']);
+            $stmt->bindParam(':meta_description', $input['meta_description']);
+            $stmt->bindParam(':categories', json_encode($input['categories']));
+            $stmt->bindParam(':template', $input['template']);
+            
+            $stmt->execute();
+            $result = $stmt->fetch();
+            
+            echo json_encode(['success' => true, 'message' => 'Post created successfully', 'id' => $result['id']]);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+        }
     }
 } elseif ($method === 'PUT') {
     if (strpos($path, '/api/posts/') !== false) {
         // Update post
-        $id = basename($path);
-        $input = json_decode(file_get_contents('php://input'), true);
-        
-        $posts = getPosts();
-        foreach ($posts as &$post) {
-            if ($post['id'] == $id) {
-                $post['title'] = $input['title'];
-                $post['slug'] = $input['slug'];
-                $post['content'] = $input['content'];
-                $post['excerpt'] = $input['excerpt'];
-                $post['status'] = $input['status'];
-                $post['featured_image'] = $input['featured_image'];
-                $post['meta_title'] = $input['meta_title'];
-                $post['meta_description'] = $input['meta_description'];
-                $post['categories'] = $input['categories'];
-                $post['template'] = $input['template'];
-                $post['updated_at'] = date('Y-m-d H:i:s');
-                break;
-            }
+        try {
+            $id = basename($path);
+            $input = json_decode(file_get_contents('php://input'), true);
+            
+            $stmt = $pdo->prepare('
+                UPDATE posts SET 
+                    title = :title, 
+                    slug = :slug, 
+                    content = :content, 
+                    excerpt = :excerpt, 
+                    status = :status,
+                    featured_image = :featured_image,
+                    meta_title = :meta_title,
+                    meta_description = :meta_description,
+                    categories = :categories,
+                    template = :template,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE id = :id
+            ');
+            
+            $stmt->bindParam(':id', $id);
+            $stmt->bindParam(':title', $input['title']);
+            $stmt->bindParam(':slug', $input['slug']);
+            $stmt->bindParam(':content', $input['content']);
+            $stmt->bindParam(':excerpt', $input['excerpt']);
+            $stmt->bindParam(':status', $input['status']);
+            $stmt->bindParam(':featured_image', $input['featured_image']);
+            $stmt->bindParam(':meta_title', $input['meta_title']);
+            $stmt->bindParam(':meta_description', $input['meta_description']);
+            $stmt->bindParam(':categories', json_encode($input['categories']));
+            $stmt->bindParam(':template', $input['template']);
+            
+            $stmt->execute();
+            
+            echo json_encode(['success' => true, 'message' => 'Post updated successfully']);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
         }
-        
-        savePosts($posts);
-        echo json_encode(['success' => true, 'message' => 'Post updated successfully']);
     }
 } elseif ($method === 'DELETE') {
     if (strpos($path, '/api/posts/') !== false) {
         // Delete post
-        $id = basename($path);
-        
-        $posts = getPosts();
-        $posts = array_filter($posts, function($post) use ($id) {
-            return $post['id'] != $id;
-        });
-        
-        savePosts(array_values($posts));
-        echo json_encode(['success' => true, 'message' => 'Post deleted successfully']);
+        try {
+            $id = basename($path);
+            
+            $stmt = $pdo->prepare('DELETE FROM posts WHERE id = :id');
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            
+            echo json_encode(['success' => true, 'message' => 'Post deleted successfully']);
+        } catch (PDOException $e) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
+        }
     }
 }
 ?>
