@@ -1,0 +1,10 @@
+RewriteEngine On
+
+# Zabezpieczenie przed bezpośrednim dostępem do plików PHP
+<FilesMatch "\.(php|log)$">
+    Order allow,deny
+    Allow from all
+</FilesMatch>
+
+# Przekierowanie błędów 404
+ErrorDocument 404 /admin/login.php
