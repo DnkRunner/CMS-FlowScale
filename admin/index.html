@@ -1,1 +1,458 @@
-<!DOCTYPE html><html><head><title>CMS-FlowScale - Admin</title></head><body><h1>Panel Administracyjny</h1><p>CMS-FlowScale - Gotowy do użycia!</p></body></html>
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS-FlowScale - Panel Administracyjny</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0f1115;
+            color: #e5e7eb;
+            line-height: 1.6;
+        }
+        
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: #12151b;
+            border-right: 1px solid #1f2733;
+            padding: 1rem;
+        }
+        
+        .sidebar-header {
+            padding: 1rem 0;
+            border-bottom: 1px solid #1f2733;
+            margin-bottom: 1rem;
+        }
+        
+        .logo {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+        
+        .nav-menu {
+            list-style: none;
+        }
+        
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .nav-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: #d1d5db;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background: #1f2937;
+            color: #3b82f6;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #1f2733;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            color: #3b82f6;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: #12151b;
+            border: 1px solid #1f2733;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+        
+        .content-section {
+            background: #12151b;
+            border: 1px solid #1f2733;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            color: #e5e7eb;
+        }
+        
+        .btn {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .btn:hover {
+            background: #2563eb;
+        }
+        
+        .btn-secondary {
+            background: #6b7280;
+        }
+        
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #1f2733;
+        }
+        
+        .table th {
+            background: #1f2937;
+            color: #d1d5db;
+            font-weight: 500;
+        }
+        
+        .table tr:hover {
+            background: #1a1d23;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-published {
+            background: #10b981;
+            color: white;
+        }
+        
+        .status-draft {
+            background: #6b7280;
+            color: white;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-small {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .quick-action-card {
+            background: #12151b;
+            border: 1px solid #1f2733;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .quick-action-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .quick-action-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quick-action-title {
+            font-size: 1.1rem;
+            color: #e5e7eb;
+            margin-bottom: 0.5rem;
+        }
+        
+        .quick-action-desc {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-layout {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #1f2733;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">CMS-FlowScale</div>
+            </div>
+            
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/admin" class="nav-link active">📊 Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/posts" class="nav-link">📝 Posty</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/pages" class="nav-link">📄 Strony</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/media" class="nav-link">🖼️ Media</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/comments" class="nav-link">💬 Komentarze</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/categories" class="nav-link">🏷️ Kategorie</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/users" class="nav-link">👥 Użytkownicy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/settings" class="nav-link">⚙️ Ustawienia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/theme" class="nav-link">🎨 Motyw</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">🏠 Zobacz stronę</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <header class="header">
+                <h1 class="page-title">Dashboard</h1>
+                <div class="user-menu">
+                    <span>Witaj, Admin</span>
+                    <div class="user-avatar">A</div>
+                </div>
+            </header>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Wszystkie posty</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Strony</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Komentarze</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Użytkownicy</div>
+                </div>
+            </div>
+            
+            <div class="quick-actions">
+                <div class="quick-action-card">
+                    <div class="quick-action-icon">📝</div>
+                    <div class="quick-action-title">Nowy post</div>
+                    <div class="quick-action-desc">Utwórz nowy wpis na blogu</div>
+                    <a href="/admin/posts/new" class="btn">Dodaj post</a>
+                </div>
+                
+                <div class="quick-action-card">
+                    <div class="quick-action-icon">📄</div>
+                    <div class="quick-action-title">Nowa strona</div>
+                    <div class="quick-action-desc">Utwórz nową stronę statyczną</div>
+                    <a href="/admin/pages/new" class="btn">Dodaj stronę</a>
+                </div>
+                
+                <div class="quick-action-card">
+                    <div class="quick-action-icon">🖼️</div>
+                    <div class="quick-action-title">Dodaj media</div>
+                    <div class="quick-action-desc">Prześlij obrazy i pliki</div>
+                    <a href="/admin/media" class="btn">Prześlij</a>
+                </div>
+                
+                <div class="quick-action-card">
+                    <div class="quick-action-icon">⚙️</div>
+                    <div class="quick-action-title">Ustawienia</div>
+                    <div class="quick-action-desc">Konfiguruj CMS</div>
+                    <a href="/admin/settings" class="btn">Konfiguruj</a>
+                </div>
+            </div>
+            
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Ostatnie posty</h2>
+                    <a href="/admin/posts/new" class="btn">Dodaj nowy post</a>
+                </div>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Tytuł</th>
+                            <th>Autor</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Witaj w CMS-FlowScale!</td>
+                            <td>Admin</td>
+                            <td><span class="status-badge status-published">Opublikowany</span></td>
+                            <td>20 sierpnia 2025</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/posts/edit/1" class="btn btn-small">Edytuj</a>
+                                    <button class="btn btn-small btn-danger">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nowoczesne technologie webowe</td>
+                            <td>Admin</td>
+                            <td><span class="status-badge status-published">Opublikowany</span></td>
+                            <td>19 sierpnia 2025</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/posts/edit/2" class="btn btn-small">Edytuj</a>
+                                    <button class="btn btn-small btn-danger">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Design System w praktyce</td>
+                            <td>Admin</td>
+                            <td><span class="status-badge status-published">Opublikowany</span></td>
+                            <td>18 sierpnia 2025</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="/admin/posts/edit/3" class="btn btn-small">Edytuj</a>
+                                    <button class="btn btn-small btn-danger">Usuń</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">Ostatnie komentarze</h2>
+                </div>
+                
+                <p style="color: #9ca3af; text-align: center; padding: 2rem;">
+                    Brak komentarzy do wyświetlenia
+                </p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
